@@ -1,41 +1,168 @@
-/*estilo de header con separacion*/
+/*color y separacion del encabezado */
 header{
+    background-color: #A88585;
+    border-bottom: 3px solid #5F4444;
+    padding: 12px 5%;
+}
+
+/*orden del nombre de tienda y carrito*/
+.barra{
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    border-bottom: 0.5px solid #dfdfdf;
-    flex-wrap: wrap;
+    justify-content: space-between;
 }
-/*separacion de inicio informacion contacto*/
-header section:nth-child(2){
+
+/*orden de enlaces del menu*/
+nav{
     display: flex;
     gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 10px;
 }
 
-.centrador-abajo{
+/*estilo general de la pagina*/
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    color: #E1D5D5;
+    background: #A88585;
+}
+
+/*quita el subrayaddo de los enlaces*/
+a{
+    color:inherit;
+    text-decoration: none;
+}
+
+/*separa el contendido de los bordes de la pagina*/
+main{
+    max-width: 1100px;
+    min-height: 65vh;
+    margin: auto;
+    padding: 28px 20px;
+}
+
+/*formulario de login registro y admin*/
+form{
+    max-width: 700px;
+    background-color: #A88585;
+    padding: 22px;
+    border-radius: 10px; 
+}
+
+/*añade separacion entre los campos*/
+.campo{
+    margin-bottom: 15px;
+}
+
+/*coloca texto de label encima del input*/
+label{
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/*estilo compartido por los campos de los form*/
+input, select, textarea{
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #5F4444;
+    font: inherit;
+}
+
+/*permite agrandar el textarea solamente hacia abajo*/
+textarea{
+    min-height: 120px;
+    resize: vertical;
+}
+
+/*estilo sencillo de botones*/
+button{
+    background-color: #5F4444;
+    color: #E1D5D5;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/*mensaje utilizado para las validaciones*/
+.error{
+    color: #9D2020
+}
+
+.resultado{
+    font-weight: bold;
+}
+
+/*permite mover tabla horizontalmente*/
+.tabla-contenedor{
+    overflow-x: auto;
+}
+
+/*estilo basico para tablas administrativas*/
+table{
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #A88585;
+}
+
+th, td{
+    padding: 10px;
+    border: 1px solid #5F4444;
+    text-align: left;
+}
+
+th{
+    background-color: #A88585;
+}
+
+/*coloca el menu al lado del contenido admin*/
+.admin{
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    gap: 20px;
 }
 
-#content article{
-    padding: 20px 0 32px 0;
+/*menu lateral de admin*/
+.menu-admin{
+    width: 200px;
+    background-color: #A88585;
+    padding: 15px;
+    color:#fafafa;
 }
 
-#content article:nth-child(odd){
-    background-color: #fafafa;
+.menu-admin a{
+    display: block;
+    margin-bottom: 8px 0;
 }
 
-@media(max-width: 600px){
-    header{
+/* contenido restante ocupa el espacio disponible*/
+.contenido-admin{
+    flex: 1;
+}
+
+/*separa las dos secciones de admin*/
+.contenido-admin section{
+    margin-bottom: 40px;
+}
+
+/*ajuste para mobile*/
+@media (max-width: 600px){
+    .barra{
         flex-direction: column;
     }
 
-    #inicio{
-        text-align: center;
+    nav{
+        justify-content: center;
     }
 
-    #inicio img{
-        width: 90vw;
+    .admin{
+        flex-direction: column;
+    }
+    
+    .menu-admin{
+        width: auto;
     }
 }
