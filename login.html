@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ingresar | Pawchi</title>
+    </head>
+    <body>
+        <header id="encabezado">
+        </header>
+        <main>
+            <h1> Iniciar sesion</h1>
+            <form id="form-login" data-validar novalidate>
+                <div class="campo">
+                    <label for="correo">Correo*</label>
+                    <input id="correo" name="correo" type="email" maxlength="100">
+                    <p class="ayuda">Solo @gmail.com o @duocuc.cl</p>
+                    <p id="error-correo" class="error"></p>
+                </div>
+                <div class="campo">
+                    <label for="clave">Contraseña*</label>
+                    <input id="clave" name="clave" type="password" minlength="4" maxlength="10">
+                    <p class="ayuda">Entre 4 y 10 caracteres</p>
+                    <p id="error-clave" class="error"></p>
+                </div>
+                <button>
+                    <p class="resultado"></p>
+                </button>
+            </form>
+        </main>
+        <footer id="pie"></footer>
+    </body>
+</html>
