@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Administracion | Pawchi </title>
+</head>
+<body>
+    <header id="encabezado"></header>
+    <main>
+        <h1> Administracion Pawchi </h1>
+        <div class="admin">
+            <aside class="menu-admin">
+                <h2> Menu </h2>
+                <a href="#"> Productos </a>
+                <a href="#"> Usuarios </a>
+                <a href="index.html"> Volver a la tienda </a>
+            </aside>
+            <div class="contenido-admin">
+                <section id="productos-admin">
+                    <h2> Lista de productos </h2>
+                    <div class="tabla-contenedor">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th> Codigo </th>
+                                    <th> Nombre </th>
+                                    <th> Precio </th>
+                                    <th> Stock </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-productos-admin"></tbody>
+                        </table>
+                    </div>
+                    <h2> Registrar producto </h2>
+                    <form id="form-producto">
+                        <div class="campo">
+                            <label for="codigo"> Codigo * </label>
+                            <input id="codigo" name="codigo" type="text" minlength="3">
+                            <p id="error-codigo" class="error"></p>
+                        </div>
+                        <div class="campo">
+                            <label for="nombreProducto"> Nombre * </label>
+                            <input id="nombreProducto" name="nombre" type="text" maxlength="100">
+                            <p id="error-nombreProducto" class="error"></p>
+                        </div>
+                        <div class="campo">
+                            <label for="descripcion"> Descripcion </label>
+                            <textarea id="descripcion" name="descripcion" maxlength="500"></textarea>
+                            <p id="error-descripcion" class="error"></p>
+                        </div>
+                        <div class="campo">
+                            <label for="precio"> Precio * </label>
+                            <input id="precio" name="precio" type="number" min="0">
+                            <p id="error-precio" class="error"></p>
+                        </div>
+                        <div class="campo">
+                            <label for="stock"> Stock * </label>
+                            <input id="stock" name="stock" type="number" min="0">
+                            <p id="error-stock" class="error"></p>
+                        </div>
+                        <div class="campo">
+                            <label for="stockCritico"> Stock critico </label>
+                            <input id="stockCritico" name="stockCritico" type="number" min="0">
+                            <p id="error-stockCritico" class="error"></p>
+                        </div>
+                        <div class="campo">
+                            <label for="categoria"> Categoria * </label>
+                            <select id="categoria" name="categoria">
+                                <option value=""> Seleccione </option>
+                                <option> Everyday Chaos </option>
+                                <option> Fantasy Pups </option>
+                                <option> Foodies </option>
+                            </select>
+                            <p id="error-categoria" class="error"></p>
+                        </div>
+                        <button type="submit"> Guardar producto </button>
+                        <p id="resultado-producto" class="resultado"></p>
+                    </form>
+                </section>
+                <section id="usuarios-admin">
+                    <h2> Lista de usuarios </h2>
+                    <div class="tabla-contenedor">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th> RUN </th>
+                                    <th> Nombre </th>
+                                    <th> Correo </th>
+                                    <th> Tipo </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-usuarios-admin"></tbody>
+                        </table>
+                    </div>
+                    <h2> Registrar usuario </h2>
+                    <form id="form-usuario">
+                        <div class="campo">
+                            <label for="run"> RUN * </label>
+                            <input id="run" name="run" type="text" minlength="9" maxlength="9">
+                            <p id="error-run" class="error"></p>
+                        </div>
+                        <div class="campo">
+                            <label for="nombre"> Nombre * </label>
+                            <input id="nombre" name="nombre" type="text" maxlength="50">
+                            <p id="error-nombre" class="error"></p>
+                        </div>
+                        <div class="campo">
+                            <label for="apellidos"> Apellidos * </label>
+                            <input id="apellidos" name="apellidos" type="text" maxlength="100">
+                            <p id="error-apellidos" class="error"></p>
+                        </div>
+                        <div class="campo">
+                            <label for="correo"> Correo * </label>
+                            <input id="correo" name="correo" type="text" maxlength="100">
+                            <p id="error-correo" class="error"></p>
+                        </div>
+                        <div class="campo">
+                            <label for="fecha"> Fecha de nacimiento </label>
+                            <input id="fecha" name="fecha" type="date">
+                        </div>
+                        <div class="campo">
+                            <label for="tipo"> Tipo de usuario </label>
+                            <select id="tipo" name="tipo">
+                                <option> Administrador </option>
+                                <option> Cliente </option>
+                                <option> Vendedor </option>
+                            </select>
+                        </div>
+                        <div class="campo">
+                            <label for="region"> Region * </label>
+                            <select id="region" name="region"></select>
+                            <p id="error-region" class="error"></p>
+                        </div>
+                        <div class="campo">
+                            <label for="comuna"> Comuna * </label>
+                            <select id="comuna" name="comuna"></select>
+                            <p id="error-comuna" class="error"></p>
+                        </div>
+                        <div class="campo">
+                            <label for="direccion"> Direccion * </label>
+                            <textarea id="direccion" name="direccion" maxlength="300"></textarea>
+                            <p id="error-direccion" class="error"></p>
+                        </div>
+                        <button type="submit"> Guardar usuario </button>
+                        <p id="resultado-usuario" class="resultado"></p>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </main>
+    <footer id="pie"></footer>
+</body>
+</html>
