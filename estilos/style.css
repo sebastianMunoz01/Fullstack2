@@ -1,24 +1,74 @@
-/*color y separacion del encabezado */
+/*estilo de header con separacion*/
 header{
-    background-color: #A88585;
-    border-bottom: 3px solid #5F4444;
-    padding: 12px 5%;
-}
-
-/*orden del nombre de tienda y carrito*/
-.barra{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    border-bottom: 0.5px solid #dfdfdf;
+    flex-wrap: wrap;
 }
-
-/*orden de enlaces del menu*/
-nav{
+/*separacion de inicio informacion contacto*/
+header section:nth-child(2){
     display: flex;
     gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 10px;
 }
+/*----------------Estilo menu desplegable---------------------*/
+.nav-menu {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 18px;
+    font-size: 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.dropbtn:hover {
+    background-color: #2980b9;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 110%;
+    background-color: #ffffff;
+    min-width: 140px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    z-index: 100;
+    overflow: hidden;
+}
+
+.dropdown-content a {
+    color: #333333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Muestra el menú al pasar el cursor por encima */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+/*----------------Estilos del body de la pagina---------------------*/
 
 /*estilo general de la pagina*/
 body{
@@ -29,240 +79,40 @@ body{
     background: #A88585;
 }
 
+.centrador-abajo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 /*quita el subrayaddo de los enlaces*/
 a{
     color:inherit;
     text-decoration: none;
 }
-
-/*separa el contendido de los bordes de la pagina*/
-main{
-    max-width: 1100px;
-    min-height: 65vh;
-    margin: auto;
-    padding: 28px 20px;
+/*Estilos contenido de la pagina*/
+.texto-index{
+    color: #000000;
+    font-size: 30px;
 }
 
-/*formulario de login registro y admin*/
-form{
-    max-width: 700px;
-    background-color: #A88585;
-    padding: 22px;
-    border-radius: 10px; 
-}
-
-/*añade separacion entre los campos*/
-.campo{
-    margin-bottom: 15px;
-}
-
-/*coloca texto de label encima del input*/
-label{
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-/*estilo compartido por los campos de los form*/
-input, select, textarea{
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #5F4444;
-    font: inherit;
-}
-
-/*permite agrandar el textarea solamente hacia abajo*/
-textarea{
-    min-height: 120px;
-    resize: vertical;
-}
-
-/*estilo sencillo de botones*/
-button{
-    background-color: #5F4444;
-    color: #E1D5D5;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/*mensaje utilizado para las validaciones*/
-.error{
-    color: #9D2020
-}
-
-.resultado{
-    font-weight: bold;
-}
-
-/*permite mover tabla horizontalmente*/
-.tabla-contenedor{
-    overflow-x: auto;
-}
-
-/*estilo basico para tablas administrativas*/
-table{
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #A88585;
-}
-
-th, td{
-    padding: 10px;
-    border: 1px solid #5F4444;
-    text-align: left;
-}
-
-th{
-    background-color: #A88585;
-}
-
-/*coloca el menu al lado del contenido admin*/
-.admin{
-    display: flex;
-    gap: 20px;
-}
-
-/*menu lateral de admin*/
-.menu-admin{
-    width: 200px;
-    background-color: #A88585;
-    padding: 15px;
-    color:#fafafa;
-}
-
-.menu-admin a{
-    display: block;
-    margin-bottom: 8px 0;
-}
-
-/* contenido restante ocupa el espacio disponible*/
-.contenido-admin{
-    flex: 1;
-}
-
-/*separa las dos secciones de admin*/
-.contenido-admin section{
-    margin-bottom: 40px;
-}
-
-/*separa las partes principales del home*/
-main section{
-    margin-bottom: 35px;
-}
-
-.hero{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 25px;
-    background-color: #A88585;
-    padding: 25px;
-    border-radius: 10px;
-}
-
-/*permite que el texto principal utilice la mitad del espacio*/
-.hero div{
-    width: 50%;
-}
-
-/* controla el tamaño de la imagen principal*/
-.hero img{
-    width: 45%;
-    height: 350px;
-    object-fit: contain;
-}
-
-/* estilo del enlace que funciona como boton*/
-.boton{
+#inicio a {
     display: inline-block;
-    background-color: #5F4444;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
+    transition: transform 0.2s ease;
 }
 
-/*ordena las cajas de los productos*/
-.grid{
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
+#inicio a img {
+    cursor: pointer;
+    border-radius: 8px; 
 }
 
-/*estilo de apariencia basica de productos*/
-.tarjeta{
-    width: 250px;
-    background-color: #F4ECEC;
-    border: 1px solid #5F4444;
-    border-radius: 10px;
-    padding: 15px;
+#inicio a:hover {
+    transform: scale(1.05); 
 }
 
-/*todas las imagenes de productos tienen el mismo tamaño*/
-.tarjeta img{
-    width: 100%;
-    height: 230px;
-    object-fit: contain;
-}
-
-/*destacar precio del producto*/
-.precio{
-    font-weight: bold;
-}
-
-/*hace que el video use el espacio disponible*/
-.video-pawchi{
-    display: block;
-    width: 100%;
-    max-width: 800px;
-    margin: auto;
-    border-radius: 10px;
-}
-
-/*estilo basico del footer*/
+/*Estilo de footer*/
 footer{
     background-color: #5F4444;
     color: white;
     text-align: center;
     padding: 20px;
-}
-
-/*ajuste para mobile*/
-@media (max-width: 600px){
-    .barra{
-        flex-direction: column;
-    }
-
-    nav{
-        justify-content: center;
-    }
-
-    .admin{
-        flex-direction: column;
-    }
-    
-    .menu-admin{
-        width: auto;
-    }
-
-    .hero{
-    flex-direction: column;
-    text-align: center;
-    }
-
-    .hero div{
-    width: 100%;
-    }
-
-    .hero img{
-    width: 100%;
-    height: 280px;
-    }
-
-    .tarjeta{
-    width: 90%;
-    }
 }
