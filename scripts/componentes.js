@@ -1,23 +1,37 @@
-/* Coloca el mismo encabezado y pie en todas las páginas. */
+
+function inyectarFooter(){
+    document.getElementById("footer").innerHTML = "<p>Pawchi 2026.</p>";
+}
+
+function inyectarHeader(){
+    document.getElementById("header").innerHTML = '<nav class="nav-menu"><div class="dropdown"><button class="dropbtn">Menu</button><div class="dropdown-content"><a href="index.html">Inicio</a><a href="catalogo.html">Catalogo</a><a href="nosotros.html">Nosotros</a></div></div></nav><section><h1 class="prevent-select">Pawchi</h1></section><section><p class="prevent-select">Que pawchi te tocara?</span></p></section>';
+}
+
+inyectarHeader();
+inyectarFooter();
+
 function insertarComponentes(){
     let encabezado = document.getElementById("encabezado");
     let pie = document.getElementById("pie");
     let contenido = "";
 
-    // Barra superior con distribución a los extremos
+    // Barra superior 
     contenido = contenido + '<div class="barra" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">';
     contenido = contenido + '<a class="marca" href="index.html">🐾 Pawchi Blind Boxes</a>';
     contenido = contenido + '<a href="carrito.html">🛒 Carrito (<span id="contador-carrito">0</span>)</a>';
     contenido = contenido + "</div>";
 
-    // Navegación limpia
+    // Nav
     contenido = contenido + "<nav>";
     contenido = contenido + '<a href="index.html">Inicio</a> | ';
     contenido = contenido + '<a href="productos.html">Productos</a> | ';
     contenido = contenido + '<a href="nosotros.html">Nosotros</a> | ';
     contenido = contenido + '<a href="blog.html">Blog</a> | ';
     contenido = contenido + '<a href="contacto.html">Contacto</a>';
-    contenido = contenido + "</nav>";
+    contenido = contenido + '<div class="barra">';
+    contenido = contenido + '<a class="marca" href="index.html">🐾 Pawchi Blind Boxes</a>';
+    contenido = contenido + '<a href="carrito.html">🛒 Carrito (<span id="contador-carrito">0</span>)</a>';
+    contenido = contenido + "</div>";
 
     if(encabezado !== null){
         encabezado.innerHTML = contenido;
@@ -25,6 +39,7 @@ function insertarComponentes(){
 
     if(pie !== null){
         pie.innerHTML = "<p>© 2026 Pawchi Blind Boxes - Proyecto académico DSY1104</p>";
+
     }
 }
 
