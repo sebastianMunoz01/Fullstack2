@@ -2,45 +2,51 @@
 <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Contacto - Pawchi Blind Boxes</title>
-        <link rel="stylesheet" href="css/estilos.css">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Contacto | Pawchi</title>
+        <link rel="stylesheet" href="estilos/style.css">
     </head>
     <body>
         <header id="encabezado">
         </header>
-
         <main>
-            <div id="contacto-pawchi">
-                <div class="contacto-informacion">
-                    <h2>Contacto</h2>
-                    <p>Escríbenos para resolver tus dudas sobre las blind boxes.</p>
-                    <p>Correo: contacto@pawchi.com</p>
+            <h1>Contacto</h1>
+            <form id="form-contacto">
+                <div class="campo">
+                    <label for="nombre">
+                        Nombre *
+                    </label>
+                    <input id="nombre" name="nombre" type="text" maxlength="100">
+                    <p id="error-nombre" class="error"></p>
                 </div>
-
-                <div class="formulario-contacto">
-                    <div class="campo">
-                        <label>Nombre</label>
-                        <input type="text" name="nombre">
-                    </div>
-                    <div class="campo">
-                        <label>Correo Electrónico</label>
-                        <input type="email" name="email">
-                    </div>
-                    <div class="campo">
-                        <label>Mensaje</label>
-                        <textarea name="mensaje"></textarea>
-                    </div>
-                    <div class="campo">
-                        <button type="submit" class="boton">Enviar Mensaje</button>
-                    </div>
+                <div class="campo">
+                    <label for="correo">
+                        Correo (opcional)
+                    </label>
+                    <input id="correo" name="correo" type="text" maxlength="100">
+                    <p id="error-correo" class="error"></p>
                 </div>
-            </div>
+                <div class="campo">
+                    <label for="comentario">
+                        Comentario *
+                    </label>
+                    <textarea id="comentario" name="comentario" maxlength="500" placeholder="Maximo 500 caracteres"></textarea>
+                    <p id="error-comentario" class="error"></p>
+                </div>
+                <button>Enviar mensaje</button>
+                <p id="resultado-contacto" class="resultado"></p>
+            </form>
         </main>
-
         <footer id="pie">
         </footer>
-
-        <script src="js/main.js"></script>
+        <script src="scripts/datos.js">
+        </script>
+        <script src="scripts/cuentas.js"></script>
+        <script src="scripts/componentes.js">
+        </script>
+        <script src="scripts/app.js">
+        </script>
+        <script src="scripts/validaciones.js">
+        </script>
     </body>
 </html>
