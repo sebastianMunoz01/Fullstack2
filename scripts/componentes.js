@@ -25,7 +25,7 @@ function insertarComponentes(){
     }
 
     if(pie !== null){
-        pie.innerHTML = "<p>© 2026 Pawchi Blind Boxes - Proyecto academico DSY1104</p>";
+        pie.innerHTML = "<p>© 2026 Pawchi Blind Boxes - Seccion 003V</p>";
     }
 }
 
