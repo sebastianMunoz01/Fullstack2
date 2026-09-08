@@ -68,7 +68,7 @@ header section:nth-child(2){
 .dropdown:hover .dropdown-content {
     display: block;
 }
-/*--------------------------------------------------------------------*/
+/*--------------------Estilos catalogo--------------------------------*/
 
 /*estilo general de la pagina*/
 body{
@@ -145,3 +145,5 @@ footer{
     text-align: center;
     padding: 20px;
 }
+
+
