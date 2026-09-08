@@ -3,63 +3,45 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title> Registro | Pawchi </title>
+        <title>Ingresar | Pawchi</title>
         <link rel="stylesheet" href="estilos/style.css">
     </head>
     <body>
         <header id="encabezado">
         </header>
         <main>
-            <h1> Crear cuenta </h1>
-            <form id="form-registro">
+            <h1>Iniciar sesion</h1>
+            <form id="form-login">
                 <div class="campo">
-                    <label for="run"> RUN sin puntos ni guion * </label>
-                    <input id="run" name="run" type="text" minlength="10" maxlength="10" placeholder="19011022-K">
-                    <p id="error-run" class="error"></p>
-                </div>
-                <div class="campo">
-                    <label for="nombre"> Nombre * </label>
-                    <input id="nombre" name="nombre" type="text" maxlength="50">
-                    <p id="error-nombre" class="error"></p>
-                </div>
-                <div class="campo">
-                    <label for="apellidos"> Apellido * </label>
-                    <input id="apellidos" name="apellidos" type="text" maxlength="100">
-                    <p id="error-apellidos" class="error"></p>
-                </div>
-                <div class="campo">
-                    <label for="correo"> Correo * </label>
+                    <label for="correo">
+                        Correo *
+                    </label>
                     <input id="correo" name="correo" type="text" maxlength="100">
-                    <p class="ayuda"> Dominios: duocuc.cl o gmail.com </p>
+                    <p class="ayuda">Solo @duoc.cl, @profesor.duoc.cl o @gmail.com.</p>
                     <p id="error-correo" class="error"></p>
                 </div>
                 <div class="campo">
-                    <label for="fecha"> Fecha de nacimiento (opcional) </label>
-                    <input id="fecha" name="fecha" type="date">
-                    <p id="error-fecha" class="error"></p>
+                    <label for="clave">
+                        Contrasena *
+                    </label>
+                    <input id="clave" name="clave" type="password" minlength="4" maxlength="10">
+                    <p class="ayuda">Entre 4 y 10 caracteres.</p>
+                    <p id="error-clave" class="error"></p>
                 </div>
-                <div class="campo">
-                    <label for="region"> Region * </label>
-                    <select id="region" name="region"></select>
-                    <p id="error-region" class="error"></p>
-                </div>
-                <div class="campo">
-                    <label for="comuna"> Comuna * </label>
-                    <select id="comuna" name="comuna">
-                        <option value=""> Seleccione una region </option>
-                    </select>
-                    <p id="error-comuna" class="error"></p>
-                </div>
-                <div class="campo">
-                    <label for="direccion"> Direccion * </label>
-                    <textarea id="direccion" name="direccion" maxlength="300"></textarea>
-                    <p id="error-direccion" class="error"></p>
-                </div>
-                <button> Registrarme </button>
-                <p class="resultado"></p>
+                <button>Ingresar</button>
+                <p id="resultado-login" class="resultado"></p>
             </form>
         </main>
         <footer id="pie">
         </footer>
+        <script src="scripts/datos.js">
+        </script>
+        <script src="scripts/cuentas.js"></script>
+        <script src="scripts/componentes.js">
+        </script>
+        <script src="scripts/app.js">
+        </script>
+        <script src="scripts/validaciones.js">
+        </script>
     </body>
 </html>
