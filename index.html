@@ -1,23 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="estilos/style.css">
-</head>
-<body>
-    <header id="encabezado"></header>
-    <section id="content">
-        <article id="inicio" class="centrador-abajo">
-            <h2 class="titulo-index">Pawchi</h2>
-            <p class="texto-index">Visita nuestro apartado de Pawchis para saber que puede salir en tu cajita misteriosa!</p>
-            <a href="/catalogo.html" target="_self">
-                <img class="boton-index" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW4zY8NFE1KhrYTdY6u7ZCWlo10Ukf4vQqv0n3tyz95w&s" alt="Pawchis">
-            </a>
-        </article>
-    </section>
-    <footer id="pie"></footer>
-</body>
-<script src="scripts/componentes.js"></script>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Pawchi Blind Boxes</title>
+        <link rel="stylesheet" href="estilos/style.css">
+    </head>
+    <body>
+        <header id="encabezado">
+        </header>
+        <main>
+            <section class="hero">
+                <div>
+                    <h1>Pequenas cajas, grandes sorpresas</h1>
+                    <p>Descubre una figura Pawchi al azar en cada blind box.</p>
+                    <a class="boton" href="catalogo.html">Ver productos</a>
+                </div>
+                <img src="img/lineup-everyday-chaos.png" alt="Coleccion Everyday Chaos">
+            </section>
+            <section>
+                <h2>Productos destacados</h2>
+                <div id="lista-productos" class="grid">
+                </div>
+            </section>
+            <section>
+                <h2>Conoce el mundo de las blind boxes</h2>
+                <p>Pasa el mouse o toca el video para reproducirlo.</p>
+                <video
+                    id="video-pawchi"
+                    class="video-pawchi"
+                    muted
+                    playsinline
+                    onclick="alternarVideo(this)"
+                    onmouseenter="reproducirConMouse(this)"
+                    onmouseleave="detenerVideo(this)">
+                    <source src="PAWCHI-VIDEO.mp4" type="video/mp4">
+                    Tu navegador no puede reproducir este video.
+                </video>
+            </section>
+        </main>
+        <footer id="pie">
+        </footer>
+        <script src="scripts/datos.js">
+        </script>
+        <script src="scripts/cuentas.js"></script>
+        <script src="scripts/componentes.js">
+        </script>
+        <script src="scripts/app.js">
+        </script>
+    </body>
 </html>
