@@ -4,22 +4,16 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Carrito | Pawchi</title>
-        <link rel="stylesheet" href="estilos/style.css">
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
-        <header id="encabezado">
-        </header>
+        <header id="encabezado"></header>
 
         <main>
             <section id="carrito-pawchi">
                 <h1>Carrito de compras</h1>
 
-                <div class="item-carrito">
-                    <p>Producto: Caja Sorpresa Pawchi</p>
-                    <p>Precio: $10.000</p>
-                    <p>Cantidad: 1</p>
-                    <button type="button">Eliminar</button>
-                </div>
+                <div id="lista-productos"></div>
 
                 <div class="carrito-total">
                     <p>
@@ -27,16 +21,19 @@
                         <span id="total-carrito">$10.000</span>
                     </p>
 
-                    <button type="button">
+                    <button type="button" id="btn-vaciar">
                         Vaciar carrito
                     </button>
                 </div>
             </section>
         </main>
 
-        <footer id="pie">
-        </footer>
+        <footer id="pie"></footer>
 
-        <script src="js/main.js"></script>
+        <!-- Enlazamos los scripts en el orden correcto -->
+        <script src="js/datos.js"></script>
+        <script src="js/componentes.js"></script>
+        <script src="js/script.js"></script>
+        <script src="js/carrito.js"></script>
     </body>
 </html>
