@@ -1,261 +1,277 @@
-/*datos del panel*/
-let productosAdmin = obtenerProductos();
-let editando = -1;
-
-/*revisa acceso*/
-function esAdministrador(){
-    let usuario = usuarioActual();
-    return usuario !== null && usuario.tipo === "Administrador";
-}
-
-/*lista los productos*/
-function mostrarProductosAdmin(){
-    let filas = "";
-    for(let i = 0; i < productosAdmin.length; i++){
-        let producto = productosAdmin[i];
-        filas += "<tr><td>" + textoSeguro(producto.codigo) + "</td>";
-        filas += "<td>" + textoSeguro(producto.nombre) + "</td>";
-        filas += "<td>" + formatoPrecio(producto.precio) + "</td><td>" + producto.stock;
-        if(producto.stockCritico !== null && producto.stock <= producto.stockCritico){
-            filas += " - Stock bajo";
-        }
-        filas += '</td><td><a href="detalle.html?id=' + producto.id + '">Ver</a>';
-        if(esAdministrador()){
-            filas += ' <button onclick="editarProducto(' + i + ')">Editar</button>';
-            filas += ' <button onclick="eliminarProducto(' + i + ')">Eliminar</button>';
-        }
-        filas += "</td></tr>";
+/* revisa el largo del texto*/
+function validarString(texto, minimo, maximo){
+    let valor = texto.trim();
+    if(valor.length < minimo){
+        return false;
     }
-    document.getElementById("tabla-productos-admin").innerHTML = filas;
-}
-
-/*lista los usuarios*/
-function mostrarUsuariosAdmin(){
-    let usuarios = obtenerUsuarios();
-    let filas = "";
-    for(let i = 0; i < usuarios.length; i++){
-        filas += "<tr><td>" + textoSeguro(usuarios[i].run) + "</td>";
-        filas += "<td>" + textoSeguro(usuarios[i].nombre + " " + usuarios[i].apellidos) + "</td>";
-        filas += "<td>" + textoSeguro(usuarios[i].correo) + "</td><td>" + textoSeguro(usuarios[i].tipo) + "</td></tr>";
+    if(maximo !== undefined && valor.length > maximo){
+        return false;
     }
-    document.getElementById("tabla-usuarios-admin").innerHTML = filas;
+    return true;
 }
 
-/*valida texto*/
-function validarTexto(campo, minimo, maximo){
-    if(validarString(campo.value, minimo, maximo) === false){
-        return mostrarMensaje(campo, "Revisa el largo del campo.");
+/* revisa un numero*/
+function validarFloat(texto, minimo, maximo){
+    if(texto.trim() === "" || isNaN(texto)){
+        return false;
     }
-    return mostrarMensaje(campo, "");
+    let numero = Number(texto);
+    if(isFinite(numero) === false || numero < minimo){
+        return false;
+    }
+    if(maximo !== undefined && numero > maximo){
+        return false;
+    }
+    return true;
 }
 
-/*valida un numero*/
-function validarNumero(campo, entero, opcional){
-    if(campo.value === "" && opcional){
+/* muestra el error debajo del campo */
+function mostrarMensaje(campo, texto){
+    let mensaje = document.getElementById("error-" + campo.id);
+    if(mensaje !== null){
+        mensaje.textContent = texto;
+    }
+    if(texto === ""){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+/* busca el campo y revisa su texto */
+function obtenerString(id, minimo, maximo, mensaje){
+    let campo = document.getElementById(id);
+    if(validarString(campo.value, minimo, maximo)){
+        return mostrarMensaje(campo, "");
+    }else{
+        return mostrarMensaje(campo, mensaje);
+    }
+}
+
+function validarCorreo(campo, obligatorio){
+    let correo = campo.value.trim().toLowerCase();
+    if(correo === "" && obligatorio === false){
         return mostrarMensaje(campo, "");
     }
-    let numero = Number(campo.value);
-    if(validarFloat(campo.value, 0) === false){
-        return mostrarMensaje(campo, "Ingresa un numero igual o mayor que 0.");
+    let partes = correo.split("@");
+    if(correo.length > 100 || partes.length !== 2 || partes[0] === "" || /\s/.test(correo)){
+        return mostrarMensaje(campo, "Escribe un correo valido de hasta 100 caracteres.");
     }
-    if(entero && numero % 1 !== 0){
-        return mostrarMensaje(campo, "Usa un numero entero.");
+    if(correo.endsWith("@duoc.cl") || correo.endsWith("@profesor.duoc.cl") || correo.endsWith("@gmail.com")){
+        return mostrarMensaje(campo, "");
+    }else{
+        return mostrarMensaje(campo, "Usa duoc.cl, profesor.duoc.cl o gmail.com.");
     }
-    return mostrarMensaje(campo, "");
 }
 
-/*revisa el producto*/
-function validarProducto(formulario){
-    let valido = true;
-    if(validarTexto(formulario.codigo, 3) === false){
-        valido = false;
+/* la clave se cuenta sin quitar espacios */
+function validarClave(campo){
+    if(campo.value.length >= 4 && campo.value.length <= 10){
+        return mostrarMensaje(campo, "");
+    }else{
+        return mostrarMensaje(campo, "La clave debe tener entre 4 y 10 caracteres.");
     }
-    if(validarTexto(formulario.nombre, 1, 100) === false){
-        valido = false;
+}
+
+/* calcula el digito verificador del run */
+function runValido(run){
+    if(/^[0-9]{6,8}[0-9Kk]$/.test(run) === false){
+        return false;
     }
-    if(validarTexto(formulario.descripcion, 0, 500) === false){
-        valido = false;
-    }
-    if(validarNumero(formulario.precio, false, false) === false){
-        valido = false;
-    }
-    if(validarNumero(formulario.stock, true, false) === false){
-        valido = false;
-    }
-    if(validarNumero(formulario.stockCritico, true, true) === false){
-        valido = false;
-    }
-    if(validarTexto(formulario.categoria, 1, 100) === false){
-        valido = false;
-    }
-    for(let i = 0; i < productosAdmin.length; i++){
-        if(i !== editando && productosAdmin[i].codigo === formulario.codigo.value.trim()){
-            mostrarMensaje(formulario.codigo, "Ese codigo ya existe.");
-            valido = false;
+    let cuerpo = run.slice(0, -1);
+    let suma = 0;
+    let multiplo = 2;
+    for(let i = cuerpo.length - 1; i >= 0; i--){
+        suma = suma + Number(cuerpo[i]) * multiplo;
+        multiplo = multiplo + 1;
+        if(multiplo === 8){
+            multiplo = 2;
         }
+    }
+    let resultado = 11 - (suma % 11);
+    let digito = String(resultado);
+    if(resultado === 11){
+        digito = "0";
+    }else if(resultado === 10){
+        digito = "K";
+    }
+    return digito === run.slice(-1).toUpperCase();
+}
+
+/* llena el select con el arreglo de regiones */
+function cargarRegiones(){
+    let region = document.getElementById("region");
+    if(region === null){
+        return;
+    }
+    let opciones = '<option value="">Seleccione</option>';
+    for(let i = 0; i < regiones.length; i++){
+        opciones = opciones + '<option value="' + i + '">' + regiones[i].nombre + '</option>';
+    }
+    region.innerHTML = opciones;
+    region.addEventListener("change", cargarComunas);
+    cargarComunas();
+}
+
+/* cambia las comunas cuando se elige una region */
+function cargarComunas(){
+    let region = document.getElementById("region");
+    let comuna = document.getElementById("comuna");
+    if(region === null || comuna === null){
+        return;
+    }
+    let opciones = '<option value="">Seleccione</option>';
+    let numero = Number(region.value);
+    if(region.value !== "" && regiones[numero] !== undefined){
+        for(let i = 0; i < regiones[numero].comunas.length; i++){
+            opciones = opciones + '<option>' + regiones[numero].comunas[i] + '</option>';
+        }
+    }
+    comuna.innerHTML = opciones;
+    comuna.value = "";
+    mostrarMensaje(comuna, "");
+}
+
+/* revisa que la comuna pertenezca a la region */
+function validarComuna(){
+    let region = document.getElementById("region");
+    let comuna = document.getElementById("comuna");
+    let numero = Number(region.value);
+    if(region.value === "" || regiones[numero] === undefined){
+        mostrarMensaje(region, "Selecciona una region.");
+        return false;
+    }
+    mostrarMensaje(region, "");
+    for(let i = 0; i < regiones[numero].comunas.length; i++){
+        if(comuna.value === regiones[numero].comunas[i]){
+            return mostrarMensaje(comuna, "");
+        }
+    }
+    return mostrarMensaje(comuna, "Selecciona una comuna.");
+}
+
+/* estos campos se repiten en registro y admin */
+function validarUsuario(formulario){
+    let valido = true;
+    if(runValido(formulario.run.value.trim()) === false){
+        mostrarMensaje(formulario.run, "Usa un RUN valido, de 7 a 9 caracteres, sin puntos ni guion.");
+        valido = false;
+    }else{
+        mostrarMensaje(formulario.run, "");
+    }
+    if(obtenerString("nombre", 1, 50, "Escribe el nombre, maximo 50 caracteres.") === false){
+        valido = false;
+    }
+    if(obtenerString("apellidos", 1, 100, "Escribe los apellidos, maximo 100 caracteres.") === false){
+        valido = false;
+    }
+    if(validarCorreo(formulario.correo, true) === false){
+        valido = false;
+    }
+    if(obtenerString("direccion", 1, 300, "Escribe la direccion, maximo 300 caracteres.") === false){
+        valido = false;
+    }
+    if(validarComuna() === false){
+        valido = false;
     }
     return valido;
 }
 
-/*carga el producto en el mismo formulario*/
-function editarProducto(indice){
-    if(esAdministrador() === false){
-        return;
-    }
-    editando = indice;
-    let formulario = document.getElementById("form-producto");
-    let producto = productosAdmin[indice];
-    formulario.codigo.value = producto.codigo;
-    formulario.nombre.value = producto.nombre;
-    formulario.descripcion.value = producto.descripcion;
-    formulario.precio.value = producto.precio;
-    formulario.stock.value = producto.stock;
-    formulario.stockCritico.value = producto.stockCritico;
-    if(producto.stockCritico === null){
-        formulario.stockCritico.value = "";
-    }
-    formulario.categoria.value = producto.categoria;
-    formulario.imagen.value = producto.imagen;
-    document.getElementById("titulo-producto").textContent = "Editar producto";
-    formulario.codigo.focus();
-}
-
-/*vuelve al registro nuevo*/
-function cancelarEdicion(){
-    editando = -1;
-    document.getElementById("titulo-producto").textContent = "Registrar producto";
-}
-
-/*guarda el producto*/
-function guardarProducto(evento){
+/* revisa el login y luego compara la cuenta */
+function enviarLogin(evento){
     evento.preventDefault();
-    let formulario = document.getElementById("form-producto");
-    if(esAdministrador() === false || validarProducto(formulario) === false){
-        return;
-    }
-    let id = 1;
-    for(let i = 0; i < productosAdmin.length; i++){
-        if(productosAdmin[i].id >= id){
-            id = productosAdmin[i].id + 1;
+    let formulario = document.getElementById("form-login");
+    let resultado = document.getElementById("resultado-login");
+    resultado.textContent = "";
+    let correoCorrecto = validarCorreo(formulario.correo, true);
+    let claveCorrecta = validarClave(formulario.clave);
+    if(correoCorrecto && claveCorrecta){
+        if(entrar(formulario.correo.value, formulario.clave.value) === false){
+            resultado.textContent = "Correo o clave incorrectos.";
         }
     }
-    if(editando !== -1){
-        id = productosAdmin[editando].id;
-    }
-    let critico = null;
-    if(formulario.stockCritico.value !== ""){
-        critico = Number(formulario.stockCritico.value);
-    }
-    let producto = {
-        id: id,
-        codigo: formulario.codigo.value.trim(),
-        nombre: formulario.nombre.value.trim(),
-        descripcion: formulario.descripcion.value.trim(),
-        precio: Number(formulario.precio.value),
-        stock: Number(formulario.stock.value),
-        stockCritico: critico,
-        categoria: formulario.categoria.value,
-        imagen: formulario.imagen.value
-    };
-    if(editando === -1){
-        productosAdmin.push(producto);
-    }else{
-        productosAdmin[editando] = producto;
-    }
-    localStorage.setItem("pawchiSimpleProductos", JSON.stringify(productosAdmin));
-    mostrarProductosAdmin();
-    formulario.reset();
-    cancelarEdicion();
-    document.getElementById("resultado-producto").textContent = "Producto guardado.";
 }
 
-/*guarda la cuenta*/
-function guardarUsuario(evento){
+/* revisa el registro y guarda la cuenta */
+function enviarRegistro(evento){
     evento.preventDefault();
-    let formulario = document.getElementById("form-usuario");
-    let valido = validarUsuario(formulario);
-    if(validarClave(formulario.clave) === false){
-        valido = false;
+    let formulario = document.getElementById("form-registro");
+    let resultado = document.getElementById("resultado-registro");
+    resultado.textContent = "";
+    let usuarioCorrecto = validarUsuario(formulario);
+    let claveCorrecta = validarClave(formulario.clave);
+    if(usuarioCorrecto && claveCorrecta){
+        if(guardarCuenta(formulario, "Cliente")){
+            resultado.textContent = "Cuenta creada. Ya puedes ingresar.";
+            formulario.reset();
+            cargarComunas();
+        }else{
+            resultado.textContent = "Ese correo o RUN ya esta registrado.";
+        }
     }
-    if(esAdministrador() === false || valido === false){
-        return;
-    }
-    if(guardarCuenta(formulario, formulario.tipo.value) === false){
-        document.getElementById("resultado-usuario").textContent = "Correo o RUN repetido.";
-        return;
-    }
-    mostrarUsuariosAdmin();
-    formulario.reset();
-    cargarComunas();
-    document.getElementById("resultado-usuario").textContent = "Usuario guardado.";
 }
 
-/*inicia el panel*/
-function iniciarAdministrador(){
-    let usuario = usuarioActual();
-    if(usuario === null || usuario.tipo === "Cliente"){
-        document.getElementById("aviso-acceso").textContent = "Ingresa con una cuenta de administrador o vendedor.";
-        return;
+/* revisa contacto y guarda el mensaje en el navegador */
+function enviarContacto(evento){
+    evento.preventDefault();
+    let formulario = document.getElementById("form-contacto");
+    let resultado = document.getElementById("resultado-contacto");
+    resultado.textContent = "";
+    let nombreCorrecto = obtenerString("nombre", 1, 100, "Escribe el nombre, maximo 100 caracteres.");
+    let correoCorrecto = validarCorreo(formulario.correo, false);
+    let comentarioCorrecto = obtenerString("comentario", 1, 500, "Escribe un comentario, maximo 500 caracteres.");
+    if(nombreCorrecto && correoCorrecto && comentarioCorrecto){
+        let mensajes = leerDatos("pawchiSimpleMensajes", []);
+        let mensaje = {
+            nombre: formulario.nombre.value,
+            correo: formulario.correo.value,
+            comentario: formulario.comentario.value
+        };
+        mensajes.push(mensaje);
+        localStorage.setItem("pawchiSimpleMensajes", JSON.stringify(mensajes));
+        resultado.textContent = "Mensaje guardado en este navegador.";
+        formulario.reset();
     }
-    document.getElementById("panel-admin").hidden = false;
-    mostrarProductosAdmin();
-    mostrarOrdenes();
-    if(usuario.tipo === "Vendedor"){
-        document.getElementById("usuarios-admin").hidden = true;
-        document.getElementById("menu-usuarios").hidden = true;
-        document.getElementById("form-producto").hidden = true;
-        document.getElementById("titulo-producto").hidden = true;
-        return;
-    }
-    mostrarUsuariosAdmin();
-    document.getElementById("form-producto").addEventListener("submit", guardarProducto);
-    document.getElementById("form-producto").addEventListener("input", revisarEnVivo);
-    document.getElementById("form-usuario").addEventListener("submit", guardarUsuario);
-    document.getElementById("form-usuario").addEventListener("input", revisarEnVivo);
 }
 
-document.addEventListener("DOMContentLoaded", iniciarAdministrador);
-
-/*elimina solo el producto elegido*/
-function eliminarProducto(indice){
-    if(esAdministrador() === false || confirm("Eliminar este producto?") === false){
-        return;
+/* avisa mientras se escribe */
+function revisarEnVivo(evento){
+    let campo = evento.target;
+    if(campo.name === "correo"){
+        validarCorreo(campo, evento.currentTarget.id !== "form-contacto");
+    }else if(campo.name === "clave"){
+        validarClave(campo);
+    }else if(campo.name === "run" && runValido(campo.value.trim()) === false){
+        mostrarMensaje(campo, "Revisa el RUN sin puntos ni guion.");
+    }else if(campo.type === "number" && (Number(campo.value) < 0 || (campo.name !== "precio" && Number(campo.value) % 1 !== 0))){
+        mostrarMensaje(campo, "Usa un numero no negativo. El stock debe ser entero.");
+    }else if(campo.maxLength > 0 && campo.value.length >= campo.maxLength){
+        mostrarMensaje(campo, "Llegaste al maximo de caracteres.");
+    }else if(campo.minLength > 0 && campo.value.length < campo.minLength){
+        mostrarMensaje(campo, "Usa al menos " + campo.minLength + " caracteres.");
+    }else{
+        mostrarMensaje(campo, "");
     }
-    productosAdmin.splice(indice, 1);
-    localStorage.setItem("pawchiSimpleProductos", JSON.stringify(productosAdmin));
-    document.getElementById("form-producto").reset();
-    cancelarEdicion();
-    mostrarProductosAdmin();
 }
 
-/*orden de ejemplo no es una compra real*/
-let ordenes = [
-    {numero: 1, cliente: "Cliente de ejemplo", producto: "Everyday Chaos", cantidad: 2, precio: 9990}
-];
-
-/*lista las ordenes para administrador y vendedor*/
-function mostrarOrdenes(){
-    let usuario = usuarioActual();
-    if(usuario === null || usuario.tipo === "Cliente"){
-        return;
+/* conecta solo el formulario de esta pagina */
+function iniciarValidaciones(){
+    cargarRegiones();
+    let login = document.getElementById("form-login");
+    let registro = document.getElementById("form-registro");
+    let contacto = document.getElementById("form-contacto");
+    if(login !== null){
+        login.addEventListener("submit", enviarLogin);
+        login.addEventListener("input", revisarEnVivo);
     }
-    let contenido = "";
-    for(let i = 0; i < ordenes.length; i++){
-        contenido += "<tr><td>" + ordenes[i].numero + "</td><td>" + textoSeguro(ordenes[i].cliente) + "</td>";
-        contenido += "<td>" + formatoPrecio(ordenes[i].cantidad * ordenes[i].precio) + "</td>";
-        contenido += '<td><button onclick="verOrden(' + i + ')">Ver detalle</button></td></tr>';
+    if(registro !== null){
+        registro.addEventListener("submit", enviarRegistro);
+        registro.addEventListener("input", revisarEnVivo);
     }
-    document.getElementById("tabla-ordenes").innerHTML = contenido;
+    if(contacto !== null){
+        contacto.addEventListener("submit", enviarContacto);
+        contacto.addEventListener("input", revisarEnVivo);
+    }
 }
 
-/*muestra el detalle en la misma pagina*/
-function verOrden(indice){
-    let usuario = usuarioActual();
-    if(usuario === null || usuario.tipo === "Cliente"){
-        return;
-    }
-    let orden = ordenes[indice];
-    document.getElementById("detalle-orden").textContent = "Orden " + orden.numero + ": " + orden.producto +
-        ". Cantidad: " + orden.cantidad + ". Precio por unidad: " + formatoPrecio(orden.precio) +
-        ". Total: " + formatoPrecio(orden.cantidad * orden.precio) + ". Datos de ejemplo.";
-}
+document.addEventListener("DOMContentLoaded", iniciarValidaciones);

@@ -1,62 +1,471 @@
-function insertarComponentes(){
-    let encabezado = document.getElementById("encabezado");
-    let pie = document.getElementById("pie");
-    let contenido = "";
-
-    contenido = contenido + '<div class="barra">';
-    contenido = contenido + '<a class="marca" href="index.html">Pawchi Blind Boxes</a>';
-    contenido = contenido + '<a href="carrito.html">🛒 Carrito (<span id="contador-carrito">0</span>)</a>';
-    contenido = contenido + "</div>";
-    contenido = contenido + "<nav>";
-    contenido = contenido + '<a href="index.html">Inicio</a>';
-    contenido = contenido + '<a href="catalogo.html">Productos</a>';
-    contenido = contenido + '<a href="nosotros.html">Nosotros</a>';
-    contenido = contenido + '<a href="blog.html">Blog</a>';
-    contenido = contenido + '<a href="contacto.html">Contacto</a>';
-    contenido = contenido + '<a href="registro.html">Registro</a>';
-    contenido = contenido + '<a href="login.html">Ingresar</a>';
-    contenido = contenido + '<a id="acceso-admin" href="admin.html">Administracion</a>';
-    contenido = contenido + '<button id="cerrar-sesion" onclick="salir()">Salir</button>';
-    contenido = contenido + "</nav>";
-
-    if(encabezado !== null){
-        encabezado.innerHTML = contenido;
+/* este arreglo contiene los productos iniciales de la tienda. */
+let productosBase = [
+    {
+        id: 1,
+        codigo: "PAW001",
+        nombre: "Everyday Chaos",
+        descripcion: "Una caja sorpresa con pequenas aventuras cotidianas.",
+        precio: 9990,
+        stock: 12,
+        stockCritico: 3,
+        categoria: "Cotidianos",
+        imagen: "img/blindbox-everyday-chaos.png"
+    },
+    {
+        id: 2,
+        codigo: "PAW002",
+        nombre: "Fantasy Pups",
+        descripcion: "Una caja sorpresa con perritos magicos.",
+        precio: 10990,
+        stock: 8,
+        stockCritico: 2,
+        categoria: "Fantasia",
+        imagen: "img/blindbox-fantasy-pups.png"
+    },
+    {
+        id: 3,
+        codigo: "PAW003",
+        nombre: "Foodies",
+        descripcion: "Una caja sorpresa con perritos inspirados en comidas.",
+        precio: 9990,
+        stock: 10,
+        stockCritico: 3,
+        categoria: "Comida",
+        imagen: "img/blindbox-foodies.png"
     }
+];
 
-    if(pie !== null){
-        pie.innerHTML = "<p>© 2026 Pawchi Blind Boxes - Seccion 003V</p>";
+/* regiones y comunas de chile, guardadas para usar sin internet */
+let regiones = [
+    {
+        "nombre": "Region Metropolitana",
+        "comunas": [
+            "Alhue",
+            "Buin",
+            "Calera de Tango",
+            "Cerrillos",
+            "Cerro Navia",
+            "Colina",
+            "Conchali",
+            "Curacavi",
+            "El Bosque",
+            "El Monte",
+            "Estacion Central",
+            "Huechuraba",
+            "Independencia",
+            "Isla de Maipo",
+            "La Cisterna",
+            "La Florida",
+            "La Granja",
+            "La Pintana",
+            "La Reina",
+            "Lampa",
+            "Las Condes",
+            "Lo Barnechea",
+            "Lo Espejo",
+            "Lo Prado",
+            "Macul",
+            "Maipu",
+            "Maria Pinto",
+            "Melipilla",
+            "Nunoa",
+            "Padre Hurtado",
+            "Paine",
+            "Pedro Aguirre Cerda",
+            "Penaflor",
+            "Penalolen",
+            "Pirque",
+            "Providencia",
+            "Pudahuel",
+            "Puente Alto",
+            "Quilicura",
+            "Quinta Normal",
+            "Recoleta",
+            "Renca",
+            "San Bernardo",
+            "San Joaquin",
+            "San Jose de Maipo",
+            "San Miguel",
+            "San Pedro",
+            "San Ramon",
+            "Santiago",
+            "Talagante",
+            "Tiltil",
+            "Vitacura"
+        ]
+    },
+    {
+        "nombre": "Valparaiso",
+        "comunas": [
+            "Algarrobo",
+            "Cabildo",
+            "Calera",
+            "Calle Larga",
+            "Cartagena",
+            "Casablanca",
+            "Catemu",
+            "Concon",
+            "El Quisco",
+            "El Tabo",
+            "Hijuelas",
+            "Isla de Pascua",
+            "Juan Fernandez",
+            "La Cruz",
+            "La Ligua",
+            "Limache",
+            "Llaillay",
+            "Los Andes",
+            "Nogales",
+            "Olmue",
+            "Panquehue",
+            "Papudo",
+            "Petorca",
+            "Puchuncavi",
+            "Putaendo",
+            "Quillota",
+            "Quilpue",
+            "Quintero",
+            "Rinconada",
+            "San Antonio",
+            "San Esteban",
+            "San Felipe",
+            "Santa Maria",
+            "Santo Domingo",
+            "Valparaiso",
+            "Villa Alemana",
+            "Vina del Mar",
+            "Zapallar"
+        ]
+    },
+    {
+        "nombre": "Region del Biobio",
+        "comunas": [
+            "Alto Biobio",
+            "Antuco",
+            "Arauco",
+            "Cabrero",
+            "Canete",
+            "Chiguayante",
+            "Concepcion",
+            "Contulmo",
+            "Coronel",
+            "Curanilahue",
+            "Florida",
+            "Hualpen",
+            "Hualqui",
+            "Laja",
+            "Lebu",
+            "Los Alamos",
+            "Los Angeles",
+            "Lota",
+            "Mulchen",
+            "Nacimiento",
+            "Negrete",
+            "Penco",
+            "Quilaco",
+            "Quilleco",
+            "San Pedro de la Paz",
+            "San Rosendo",
+            "Santa Barbara",
+            "Santa Juana",
+            "Talcahuano",
+            "Tirua",
+            "Tome",
+            "Tucapel",
+            "Yumbel"
+        ]
+    },
+    {
+        "nombre": "Arica y Parinacota",
+        "comunas": [
+            "Arica",
+            "Camarones",
+            "General Lagos",
+            "Putre"
+        ]
+    },
+    {
+        "nombre": "Tarapaca",
+        "comunas": [
+            "Alto Hospicio",
+            "Camina",
+            "Colchane",
+            "Huara",
+            "Iquique",
+            "Pica",
+            "Pozo Almonte"
+        ]
+    },
+    {
+        "nombre": "Antofagasta",
+        "comunas": [
+            "Antofagasta",
+            "Calama",
+            "Maria Elena",
+            "Mejillones",
+            "Ollague",
+            "San Pedro de Atacama",
+            "Sierra Gorda",
+            "Taltal",
+            "Tocopilla"
+        ]
+    },
+    {
+        "nombre": "Atacama",
+        "comunas": [
+            "Alto del Carmen",
+            "Caldera",
+            "Chanaral",
+            "Copiapo",
+            "Diego de Almagro",
+            "Freirina",
+            "Huasco",
+            "Tierra Amarilla",
+            "Vallenar"
+        ]
+    },
+    {
+        "nombre": "Coquimbo",
+        "comunas": [
+            "Andacollo",
+            "Canela",
+            "Combarbala",
+            "Coquimbo",
+            "Illapel",
+            "La Higuera",
+            "La Serena",
+            "Los Vilos",
+            "Monte Patria",
+            "Ovalle",
+            "Paiguano",
+            "Punitaqui",
+            "Rio Hurtado",
+            "Salamanca",
+            "Vicuna"
+        ]
+    },
+    {
+        "nombre": "Region del Libertador Gral. Bernardo O'Higgins",
+        "comunas": [
+            "Chepica",
+            "Chimbarongo",
+            "Codegua",
+            "Coinco",
+            "Coltauco",
+            "Donihue",
+            "Graneros",
+            "La Estrella",
+            "Las Cabras",
+            "Litueche",
+            "Lolol",
+            "Machali",
+            "Malloa",
+            "Marchihue",
+            "Mostazal",
+            "Nancagua",
+            "Navidad",
+            "Olivar",
+            "Palmilla",
+            "Paredones",
+            "Peralillo",
+            "Peumo",
+            "Pichidegua",
+            "Pichilemu",
+            "Placilla",
+            "Pumanque",
+            "Quinta de Tilcoco",
+            "Rancagua",
+            "Rengo",
+            "Requinoa",
+            "San Fernando",
+            "San Vicente",
+            "Santa Cruz"
+        ]
+    },
+    {
+        "nombre": "Region del Maule",
+        "comunas": [
+            "Cauquenes",
+            "Chanco",
+            "Colbun",
+            "Constitucion",
+            "Curepto",
+            "Curico",
+            "Empedrado",
+            "Hualane",
+            "Licanten",
+            "Linares",
+            "Longavi",
+            "Maule",
+            "Molina",
+            "Parral",
+            "Pelarco",
+            "Pelluhue",
+            "Pencahue",
+            "Rauco",
+            "Retiro",
+            "Rio Claro",
+            "Romeral",
+            "Sagrada Familia",
+            "San Clemente",
+            "San Javier",
+            "San Rafael",
+            "Talca",
+            "Teno",
+            "Vichuquen",
+            "Villa Alegre",
+            "Yerbas Buenas"
+        ]
+    },
+    {
+        "nombre": "Region de Nuble",
+        "comunas": [
+            "Bulnes",
+            "Chillan",
+            "Chillan Viejo",
+            "Cobquecura",
+            "Coelemu",
+            "Coihueco",
+            "El Carmen",
+            "Ninhue",
+            "Niquen",
+            "Pemuco",
+            "Pinto",
+            "Portezuelo",
+            "Quillon",
+            "Quirihue",
+            "Ranquil",
+            "San Carlos",
+            "San Fabian",
+            "San Ignacio",
+            "San Nicolas",
+            "Treguaco",
+            "Yungay"
+        ]
+    },
+    {
+        "nombre": "Region de la Araucania",
+        "comunas": [
+            "Angol",
+            "Carahue",
+            "Cholchol",
+            "Collipulli",
+            "Cunco",
+            "Curacautin",
+            "Curarrehue",
+            "Ercilla",
+            "Freire",
+            "Galvarino",
+            "Gorbea",
+            "Lautaro",
+            "Loncoche",
+            "Lonquimay",
+            "Los Sauces",
+            "Lumaco",
+            "Melipeuco",
+            "Nueva Imperial",
+            "Padre las Casas",
+            "Perquenco",
+            "Pitrufquen",
+            "Pucon",
+            "Puren",
+            "Renaico",
+            "Saavedra",
+            "Temuco",
+            "Teodoro Schmidt",
+            "Tolten",
+            "Traiguen",
+            "Victoria",
+            "Vilcun",
+            "Villarrica"
+        ]
+    },
+    {
+        "nombre": "Region de Los Rios",
+        "comunas": [
+            "Corral",
+            "Futrono",
+            "La Union",
+            "Lago Ranco",
+            "Lanco",
+            "Los Lagos",
+            "Mafil",
+            "Mariquina",
+            "Paillaco",
+            "Panguipulli",
+            "Rio Bueno",
+            "Valdivia"
+        ]
+    },
+    {
+        "nombre": "Region de Los Lagos",
+        "comunas": [
+            "Ancud",
+            "Calbuco",
+            "Castro",
+            "Chaiten",
+            "Chonchi",
+            "Cochamo",
+            "Curaco de Velez",
+            "Dalcahue",
+            "Fresia",
+            "Frutillar",
+            "Futaleufu",
+            "Hualaihue",
+            "Llanquihue",
+            "Los Muermos",
+            "Maullin",
+            "Osorno",
+            "Palena",
+            "Puerto Montt",
+            "Puerto Octay",
+            "Puerto Varas",
+            "Puqueldon",
+            "Purranque",
+            "Puyehue",
+            "Queilen",
+            "Quellon",
+            "Quemchi",
+            "Quinchao",
+            "Rio Negro",
+            "San Juan de la Costa",
+            "San Pablo"
+        ]
+    },
+    {
+        "nombre": "Region Aisen del Gral. Carlos Ibanez del Campo",
+        "comunas": [
+            "Aisen",
+            "Chile Chico",
+            "Cisnes",
+            "Cochrane",
+            "Coihaique",
+            "Guaitecas",
+            "Lago Verde",
+            "O'Higgins",
+            "Rio Ibanez",
+            "Tortel"
+        ]
+    },
+    {
+        "nombre": "Region de Magallanes y de la Antartica Chilena",
+        "comunas": [
+            "Antartica",
+            "Cabo de Hornos (Ex Navarino)",
+            "Laguna Blanca",
+            "Natales",
+            "Porvenir",
+            "Primavera",
+            "Punta Arenas",
+            "Rio Verde",
+            "San Gregorio",
+            "Timaukel",
+            "Torres del Paine"
+        ]
     }
-}
+];
 
-insertarComponentes();
-
-let cuenta = usuarioActual();
-if(cuenta === null){
-    document.getElementById("cerrar-sesion").style.display = "none";
-}
-let accesoAdmin = document.getElementById("acceso-admin");
-if(accesoAdmin !== null && (cuenta === null || cuenta.tipo === "Cliente")){
-    accesoAdmin.style.display = "none";
-}
-
-function textoSeguro(texto){
-    let resultado = "";
-    texto = String(texto);
-    for(let i = 0; i < texto.length; i++){
-        let letra = texto[i];
-        if(letra === "&"){
-            resultado = resultado + "&amp;";
-        }else if(letra === "<"){
-            resultado = resultado + "&lt;";
-        }else if(letra === ">"){
-            resultado = resultado + "&gt;";
-        }else if(letra === '"'){
-            resultado = resultado + "&quot;";
-        }else if(letra === "'"){
-            resultado = resultado + "&#39;";
-        }else{
-            resultado = resultado + letra;
-        }
-    }
-    return resultado;
+/* recupera los productos modificados o entrega los productos iniciales. */
+function obtenerProductos(){
+    return leerDatos("pawchiSimpleProductos", productosBase);
 }
