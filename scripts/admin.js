@@ -1,14 +1,14 @@
-/*datos del panel*/
+/* datos del panel */
 let productosAdmin = obtenerProductos();
 let editando = -1;
 
-/*revisa el acceso*/
+/* revisa el acceso */
 function esAdministrador(){
     let usuario = usuarioActual();
     return usuario !== null && usuario.tipo === "Administrador";
 }
 
-/*lista los productos*/
+/* lista los productos */
 function mostrarProductosAdmin(){
     let filas = "";
     for(let i = 0; i < productosAdmin.length; i++){
@@ -29,7 +29,7 @@ function mostrarProductosAdmin(){
     document.getElementById("tabla-productos-admin").innerHTML = filas;
 }
 
-/*lista los usuarios*/
+/* lista los usuarios */
 function mostrarUsuariosAdmin(){
     let usuarios = obtenerUsuarios();
     let filas = "";
@@ -41,7 +41,7 @@ function mostrarUsuariosAdmin(){
     document.getElementById("tabla-usuarios-admin").innerHTML = filas;
 }
 
-/*valida texto*/
+/* valida un texto */
 function validarTexto(campo, minimo, maximo){
     if(validarString(campo.value, minimo, maximo) === false){
         return mostrarMensaje(campo, "Revisa el largo del campo.");
@@ -49,7 +49,7 @@ function validarTexto(campo, minimo, maximo){
     return mostrarMensaje(campo, "");
 }
 
-/*valida un numero*/
+/* valida un numero */
 function validarNumero(campo, entero, opcional){
     if(campo.value === "" && opcional){
         return mostrarMensaje(campo, "");
@@ -64,7 +64,7 @@ function validarNumero(campo, entero, opcional){
     return mostrarMensaje(campo, "");
 }
 
-/*revisa el producto*/
+/* revisa el producto */
 function validarProducto(formulario){
     let valido = true;
     if(validarTexto(formulario.codigo, 3) === false){
@@ -97,7 +97,7 @@ function validarProducto(formulario){
     return valido;
 }
 
-/*carga el producto en el mismo formulario*/
+/* carga el producto en el mismo formulario */
 function editarProducto(indice){
     if(esAdministrador() === false){
         return;
@@ -120,13 +120,13 @@ function editarProducto(indice){
     formulario.codigo.focus();
 }
 
-/*vuelve al registro nuevo*/
+/* vuelve al registro nuevo */
 function cancelarEdicion(){
     editando = -1;
     document.getElementById("titulo-producto").textContent = "Registrar producto";
 }
 
-/*guarda el producto*/
+/* guarda el producto */
 function guardarProducto(evento){
     evento.preventDefault();
     let formulario = document.getElementById("form-producto");
@@ -169,7 +169,7 @@ function guardarProducto(evento){
     document.getElementById("resultado-producto").textContent = "Producto guardado.";
 }
 
-/*guarda la cuenta*/
+/* guarda la cuenta */
 function guardarUsuario(evento){
     evento.preventDefault();
     let formulario = document.getElementById("form-usuario");
@@ -190,7 +190,7 @@ function guardarUsuario(evento){
     document.getElementById("resultado-usuario").textContent = "Usuario guardado.";
 }
 
-/*inicia el panel*/
+/* inicia el panel */
 function iniciarAdministrador(){
     let usuario = usuarioActual();
     if(usuario === null || usuario.tipo === "Cliente"){
@@ -216,7 +216,7 @@ function iniciarAdministrador(){
 
 document.addEventListener("DOMContentLoaded", iniciarAdministrador);
 
-/* limina solo el producto elegid*/
+/* elimina solo el producto elegido */
 function eliminarProducto(indice){
     if(esAdministrador() === false || confirm("Eliminar este producto?") === false){
         return;
@@ -228,12 +228,12 @@ function eliminarProducto(indice){
     mostrarProductosAdmin();
 }
 
-/*orden de ejemplo no es una compra real*/
+/* orden de ejemplo para la presentacion, no es una compra real */
 let ordenes = [
     {numero: 1, cliente: "Cliente de ejemplo", producto: "Everyday Chaos", cantidad: 2, precio: 9990}
 ];
 
-/*lista las ordenes para administrador y vendedor*/
+/* lista las ordenes para administrador y vendedor */
 function mostrarOrdenes(){
     let usuario = usuarioActual();
     if(usuario === null || usuario.tipo === "Cliente"){
@@ -248,7 +248,7 @@ function mostrarOrdenes(){
     document.getElementById("tabla-ordenes").innerHTML = contenido;
 }
 
-/*muestra el detalle en la misma pagina*/
+/* muestra el detalle en la misma pagina */
 function verOrden(indice){
     let usuario = usuarioActual();
     if(usuario === null || usuario.tipo === "Cliente"){

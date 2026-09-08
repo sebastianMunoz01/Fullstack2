@@ -1,3 +1,4 @@
+/* coloca el mismo encabezado y pie en todas las paginas. */
 function insertarComponentes(){
     let encabezado = document.getElementById("encabezado");
     let pie = document.getElementById("pie");
@@ -24,13 +25,13 @@ function insertarComponentes(){
     }
 
     if(pie !== null){
-        pie.innerHTML = "<p>© 2026 Pawchi Blind Boxes - Seccion 003V</p>";
+        pie.innerHTML = "<p>© 2026 Pawchi Blind Boxes - Proyecto academico DSY1104</p>";
     }
 }
 
 insertarComponentes();
 
-/* muestra acceso segun la cuenta*/
+/* muestra el acceso segun la cuenta */
 let cuenta = usuarioActual();
 if(cuenta === null){
     document.getElementById("cerrar-sesion").style.display = "none";
@@ -39,8 +40,7 @@ let accesoAdmin = document.getElementById("acceso-admin");
 if(accesoAdmin !== null && (cuenta === null || cuenta.tipo === "Cliente")){
     accesoAdmin.style.display = "none";
 }
-
-/*muestra texto sin convertirlo en etiquetas*/
+/* muestra el texto sin convertirlo en etiquetas */
 function textoSeguro(texto){
     let resultado = "";
     texto = String(texto);
