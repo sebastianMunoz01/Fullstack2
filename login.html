@@ -2,7 +2,7 @@
 <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>Ingresar | Pawchi</title>
         <link rel="stylesheet" href="estilos/style.css">
     </head>
@@ -10,25 +10,38 @@
         <header id="encabezado">
         </header>
         <main>
-            <h1> Iniciar sesion</h1>
-            <form id="form-login" data-validar novalidate>
+            <h1>Iniciar sesion</h1>
+            <form id="form-login">
                 <div class="campo">
-                    <label for="correo">Correo*</label>
-                    <input id="correo" name="correo" type="email" maxlength="100">
-                    <p class="ayuda">Solo @gmail.com o @duocuc.cl</p>
+                    <label for="correo">
+                        Correo *
+                    </label>
+                    <input id="correo" name="correo" type="text" maxlength="100">
+                    <p class="ayuda">Solo @duoc.cl, @profesor.duoc.cl o @gmail.com.</p>
                     <p id="error-correo" class="error"></p>
                 </div>
                 <div class="campo">
-                    <label for="clave">Contraseña*</label>
+                    <label for="clave">
+                        Contrasena *
+                    </label>
                     <input id="clave" name="clave" type="password" minlength="4" maxlength="10">
-                    <p class="ayuda">Entre 4 y 10 caracteres</p>
+                    <p class="ayuda">Entre 4 y 10 caracteres.</p>
                     <p id="error-clave" class="error"></p>
                 </div>
-                <button>
-                    <p class="resultado"></p>
-                </button>
+                <button>Ingresar</button>
+                <p id="resultado-login" class="resultado"></p>
             </form>
         </main>
-        <footer id="pie"></footer>
+        <footer id="pie">
+        </footer>
+        <script src="scripts/datos.js">
+        </script>
+        <script src="scripts/cuentas.js"></script>
+        <script src="scripts/componentes.js">
+        </script>
+        <script src="scripts/app.js">
+        </script>
+        <script src="scripts/validaciones.js">
+        </script>
     </body>
 </html>
