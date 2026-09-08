@@ -1,4 +1,4 @@
-/* estilo general */
+/* estilo general de todas las paginas. */
 *{
     box-sizing: border-box;
 }
@@ -15,14 +15,24 @@ img{
     max-width: 100%;
 }
 
+/* evita que el contenido se salga */
+main, form, .detalle div, .tabla-contenedor{
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+[hidden]{
+    display: none;
+}
+
 a{
     color: inherit;
     text-decoration: none;
 }
 
-/* encabezado y menu */
+/* encabezado y navegacion. */
 header{
-    background-color: #B77B7B;
+    background-color: #8F5E5E;
     color: white;
     padding: 15px 5%;
     border-bottom: 3px solid #754C4C;
@@ -30,6 +40,7 @@ header{
 
 .barra{
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 15px;
@@ -57,7 +68,7 @@ nav a:hover{
     border-radius: 5px;
 }
 
-/* contenido */
+/* contenido general. */
 main{
     width: 90%;
     max-width: 1100px;
@@ -78,57 +89,7 @@ main section{
     margin-bottom: 35px;
 }
 
-/*orden catalogo*/
-.centrador-abajo{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-/*estilos contenedor catalogo*/
-#catalogo-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-    padding: 30px;
-}
-
-/*Estilos producto*/
-.producto-card {
-    background-color: #B77B7B;
-    border: 1px solid #000000;
-    border-radius: 8px;
-    padding: 15px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    justify-content: space-between; 
-    height: 100%;
-    box-sizing: border-box;
-}
-
-/*nombre producto*/
-.nombre-producto {
-    color: #000000;
-}
-
-/*estilos img producto*/
-.producto-card img {
-    width: 100%;
-    height: 140px;
-    object-fit: contain;
-    border-radius: 5px;
-}
-
-/*estilo texto precio catalogo*/
-.precio-catalogo {
-    font-weight: bold;
-    color: #fcfcfc;
-}
-
-
-/* botones */
+/* botones y enlaces con apariencia de boton. */
 button, .boton{
     display: inline-block;
     background-color: #8F5E5E;
@@ -147,7 +108,7 @@ button:hover, .boton:hover{
     background-color: #A64040;
 }
 
-/* pagina principal */
+/* pagina principal. */
 .hero{
     display: flex;
     align-items: center;
@@ -160,6 +121,7 @@ button:hover, .boton:hover{
 
 .hero div{
     width: 50%;
+    min-width: 0;
 }
 
 .hero img{
@@ -168,7 +130,7 @@ button:hover, .boton:hover{
     object-fit: contain;
 }
 
-/* tarjetas */
+/* productos y tarjetas del blog. */
 .grid{
     display: flex;
     justify-content: center;
@@ -195,7 +157,7 @@ button:hover, .boton:hover{
     font-weight: bold;
 }
 
-/* video */
+/* video del inicio. */
 .video-pawchi{
     display: block;
     width: 100%;
@@ -210,7 +172,7 @@ button:hover, .boton:hover{
     text-decoration: underline;
 }
 
-/* formularios */
+/* formularios de login, registro, contacto y administracion. */
 form{
     width: 100%;
     max-width: 520px;
@@ -237,6 +199,14 @@ input, select, textarea{
     border: 1px solid #B9978E;
     border-radius: 4px;
     font-family: Arial, sans-serif;
+    min-width: 0;
+    font-size: 16px;
+}
+
+/* marca el elemento elegido con el teclado */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible{
+    outline: 2px solid #754C4C;
+    outline-offset: 3px;
 }
 
 textarea{
@@ -262,7 +232,7 @@ textarea{
     font-weight: bold;
 }
 
-/* detalles */
+/* detalles de producto, nosotros y articulos. */
 .detalle{
     display: flex;
     align-items: center;
@@ -279,7 +249,7 @@ textarea{
     object-fit: contain;
 }
 
-/* tablas */
+/* tablas y carrito. */
 .tabla-contenedor{
     width: 100%;
     overflow-x: auto;
@@ -298,7 +268,7 @@ th, td{
 }
 
 th{
-    background-color: #C99595;
+    background-color: #8F5E5E;
     color: white;
 }
 
@@ -313,7 +283,7 @@ th{
     font-weight: bold;
 }
 
-/* administrador */
+/* administracion simplificada y centrada. */
 .admin{
     display: block;
     max-width: 850px;
@@ -348,7 +318,7 @@ th{
     text-align: center;
 }
 
-/* pie de pagina */
+/* pie de pagina. */
 footer{
     padding: 20px;
     background-color: #754C4C;
@@ -356,7 +326,7 @@ footer{
     text-align: center;
 }
 
-/* celular */
+/* adaptacion para celulares. */
 @media(max-width: 600px){
     .barra{
         flex-direction: column;
@@ -414,23 +384,5 @@ footer{
 
     .video-pawchi{
         width: 100%;
-    }
-
-    .producto-card {
-        width: 100%;
-    }
-
-    #catalogo-container {
-        padding: 15px; 
-        gap: 15px;
-    }
-
-    .producto-card {
-        padding: 12px;
-    }
-
-    h1 {
-        font-size: clamp(1.8rem, 4vw, 3rem); 
-        text-align: center;
     }
 }
